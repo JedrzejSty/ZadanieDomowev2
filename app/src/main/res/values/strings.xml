@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">zadanieDomowev2</string>
+    <string name="change_contact">Change contact</string>
+    <string name="change_sound">change sound</string>
+    <string name="sound_1">Sound 1</string>
+    <string name="sound_2">Sound 2</string>
+    <string name="sound_3">Sound 3</string>
+    <string name="sound_4">Sound 4</string>
+    <string name="sound_5">Sound 5</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="back_message">Powrót</string>
+    <string name="current_contact_str" />
+    <string-array name="myContactArray">
+        <item>Paula</item>
+        <item>Mom</item>
+        <item>Dad</item>
+        <item>Tobias</item>
+        <item>Przemyslaw</item>
+    </string-array>
+</resources>
