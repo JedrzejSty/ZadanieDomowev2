@@ -15,7 +15,8 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         Intent received_intent = getIntent();
-        Integer contact_id = received_intent.getIntExtra(MainActivity.CONTACT_ID,0);
+
+        onItemSelectedListener();
     }
 
     public void onItemSelectedListener(){

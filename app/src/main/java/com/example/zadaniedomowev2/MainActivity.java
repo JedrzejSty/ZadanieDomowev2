@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,12 +24,14 @@ public class MainActivity extends AppCompatActivity {
     private int current_sound = 0;
 
     public static final String CONTACT_ID = "contact id";
-    public static final int BUTTON2_REQUEST = 1;
+    public static final int BUTTON2_REQUEST = 2;
     private int current_contact = 0;
 
-    private MediaPlayer backgroundPlayer;
+    //private MediaPlayer backgroundPlayer;
     private MediaPlayer buttonPlayer;
     static public Uri[] sounds;
+
+    private int licznik = 0;
 
 
     @Override
@@ -62,18 +65,18 @@ public class MainActivity extends AppCompatActivity {
         Random rand = new Random();
         final ImageView img = (ImageView) findViewById(R.id.imageView);
         final String str ="img_" + rand.nextInt(4);
-        //img.setImageDrawable(getResources().getDrawable(getResourceID(str, "drawable", getApplicationContext())));
-        //nie mogę pobrać metody getResourceID
+        img.setImageDrawable(getResources().getDrawable(getResources().getIdentifier(str, "drawable", getPackageName())));
 
 
 
         //tu było view
 
-        sounds = new Uri[4];
+        sounds = new Uri[5];
         sounds[0] = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ringd);
         sounds[1] = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring01);
         sounds[2] = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring02);
         sounds[3] = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring03);
+        sounds[4] = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring04);
 
         buttonPlayer = new MediaPlayer();
         buttonPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPrepared(MediaPlayer mp) {
-                backgroundPlayer.pause();
+                //backgroundPlayer.pause();
                 mp.start();
             }
         });
@@ -93,11 +96,12 @@ public class MainActivity extends AppCompatActivity {
                 //backgroundPlayer.start();
             }
         });
-        //  implementacja buttonu 'wysypuje" aplikacje
-        /*final Button MusicButton = (Button) findViewById(R.id.floatingActionButton4);
+
+        final FloatingActionButton MusicButton = (FloatingActionButton) findViewById(R.id.floatingActionButton4);
         MusicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                licznik^=1;
                 buttonPlayer.reset();
                 try{
                     buttonPlayer.setDataSource(getApplicationContext(),sounds[current_sound]);
@@ -107,22 +111,22 @@ public class MainActivity extends AppCompatActivity {
                 }
                 buttonPlayer.prepareAsync();
             }
-        });*/
+        });
     }
 
     @Override
     protected void onPause() {
 
         super.onPause();
-        backgroundPlayer.pause();
+       // backgroundPlayer.pause();
         buttonPlayer.pause();
     }
     @Override
     protected void onResume() {
 
         super.onResume();
-        backgroundPlayer = MediaPlayer.create(this, R.raw.mario);
-        backgroundPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        //backgroundPlayer = MediaPlayer.create(this, R.raw.ring01);
+      /*  backgroundPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
 
             @Override
@@ -130,54 +134,46 @@ public class MainActivity extends AppCompatActivity {
                 mp.setLooping(true);
                 mp.start();
             }
-        });
+        });*/
     }
     @Override
     protected void onStop() {
 
         super.onStop();
-        backgroundPlayer.release();
+        //backgroundPlayer.release();
 
 
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data2) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if(requestCode == BUTTON2_REQUEST)
             {
-                current_contact = data2.getIntExtra(CONTACT_ID, 0);
-
+                current_contact = data.getIntExtra(CONTACT_ID, 0);
                 String[] yourArray = getResources().getStringArray(R.array.myContactArray);
                 String yourString = yourArray[current_contact];
                 TextView txV = (TextView)findViewById(R.id.textView);
                 txV.setText(yourString);
+
+                Random rand = new Random();
+                final ImageView img = (ImageView) findViewById(R.id.imageView);
+                final String str ="img_" + rand.nextInt(4);
+                img.setImageDrawable(getResources().getDrawable(getResources().getIdentifier(str, "drawable", getPackageName())));
             }
-            else if(resultCode == RESULT_CANCELED){
-                Toast.makeText(getApplicationContext(),getText(R.string.back_message),Toast.LENGTH_SHORT).show();
-            }
-
-
-        }
-    }
-
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if(requestCode == BUTTON_REQUEST)
-            {
+            else if(requestCode == BUTTON_REQUEST) {
                 current_sound = data.getIntExtra(SOUND_ID, 0);
+
+            }
+
             }
             else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(getApplicationContext(),getText(R.string.back_message),Toast.LENGTH_SHORT).show();
+                TextView txV = (TextView)findViewById(R.id.textView);
             }
 
 
         }
     }
-*/
 
 
 
-
-
-}
